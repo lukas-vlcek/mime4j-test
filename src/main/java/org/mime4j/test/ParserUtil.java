@@ -1,11 +1,15 @@
 package org.mime4j.test;
 
 import org.apache.james.mime4j.MimeException;
+import org.apache.james.mime4j.dom.Message;
 import org.apache.james.mime4j.dom.MessageBuilder;
 import org.apache.james.mime4j.dom.MessageServiceFactory;
 import org.apache.james.mime4j.field.LenientFieldParser;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
 import org.apache.james.mime4j.stream.MimeConfig;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Lukas Vlcek (lukas.vlcek@gmail.com)
@@ -16,7 +20,7 @@ public class ParserUtil {
 
     private ParserUtil() {}
 
-    public static MessageBuilder getMessageBuilder() throws MimeException {
+    private static MessageBuilder getMessageBuilder() throws MimeException {
         MessageBuilder mb = messageBuilder;
         if (mb == null) {
             synchronized(ParserUtil.class) {
@@ -36,5 +40,10 @@ public class ParserUtil {
             }
         }
         return mb;
+    }
+
+    public static Message getMessage(InputStream is) throws MimeException, IOException {
+        Message message = getMessageBuilder().parseMessage(is);
+        return message;
     }
 }

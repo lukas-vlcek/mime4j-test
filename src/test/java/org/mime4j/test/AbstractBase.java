@@ -7,7 +7,7 @@ import static java.lang.ClassLoader.getSystemClassLoader;
 /**
  * @author Lukas Vlcek (lukas.vlcek@gmail.com)
  */
-public abstract class BaseTest {
+public abstract class AbstractBase {
 
     protected String slurp(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -32,14 +32,13 @@ public abstract class BaseTest {
         return is;
     }
 
-    /**
-     * Get content of file located on classpath.
-     *
-     * @param path
-     * @return
-     * @throws IOException
-     */
-    public String loadFromClasspath(String path) throws IOException {
-        return slurp(getInputStream(path));
+    protected String readerToString(Reader reader) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int c;
+        while ((c = reader.read()) != -1) {
+            sb.append((char) c);
+        }
+        reader.close();
+        return sb.toString();
     }
 }
