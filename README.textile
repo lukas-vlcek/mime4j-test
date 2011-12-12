@@ -1,5 +1,5 @@
 Trying to nail down some issues with Mime4j.
 
 Related to the following mail threads:
- * "1":http://mail-archives.apache.org/mod_mbox/james-mime4j-dev/201112.mbox/%3CCAO9cvUYdJjXRUtco1L6fMCCyrYByxx6MZu%3D%2BUhFeCbdV%2Bg4Bxg%40mail.gmail.com%3E
- * "2":http://mail-archives.apache.org/mod_mbox/james-mime4j-dev/201112.mbox/%3CCAO9cvUY64g9%2By%2Bb4XELRcgAyTJdK%3DAEqVNtnc%2BPwk%3DK-1Sw03w%40mail.gmail.com%3E
+ * "Switching from 0.6 to 0.7.1 - address parsing, CRLF issues":http://mail-archives.apache.org/mod_mbox/james-mime4j-dev/201112.mbox/%3CCAO9cvUYdJjXRUtco1L6fMCCyrYByxx6MZu%3D%2BUhFeCbdV%2Bg4Bxg%40mail.gmail.com%3E
+ * "Is it possible to have this mail parsed correctly?":http://mail-archives.apache.org/mod_mbox/james-mime4j-dev/201112.mbox/%3CCAO9cvUY64g9%2By%2Bb4XELRcgAyTJdK%3DAEqVNtnc%2BPwk%3DK-1Sw03w%40mail.gmail.com%3E
