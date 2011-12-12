@@ -36,6 +36,8 @@ public class BasicTest extends AbstractBase {
      * Hard to say if there is any systematic resolution to this issue.
      * Why is Mailman able to output 'ñ' while mime4j outputs 'Ã±' ?
      *
+     * Reference: http://lists.jboss.org/pipermail/jboss-cluster-dev/2008-April/000000.html
+     *
      * @throws IOException
      * @throws MimeException
      */
