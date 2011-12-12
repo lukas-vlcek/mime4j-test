@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>mime4j-test</groupId>
+    <artifactId>mime4j-test</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <compileSource>1.6</compileSource>
+    </properties>
+
+    <dependencies>
+        <dependency>
+	        <groupId>org.apache.james</groupId>
+	        <artifactId>apache-mime4j-core</artifactId>
+	        <version>0.7.1</version>
+        </dependency>
+        <dependency>
+	        <groupId>org.apache.james</groupId>
+	        <artifactId>apache-mime4j-dom</artifactId>
+	        <version>0.7.1</version>
+        </dependency>
+        <dependency>
+	        <groupId>org.apache.james</groupId>
+	        <artifactId>apache-mime4j-storage</artifactId>
+	        <version>0.7.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${compileSource}</source>
+                    <target>${compileSource}</target>
+                    <!--<encoding>iso8859-1</encoding>-->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>
