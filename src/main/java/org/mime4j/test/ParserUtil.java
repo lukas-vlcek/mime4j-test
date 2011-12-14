@@ -1,10 +1,13 @@
 package org.mime4j.test;
 
 import org.apache.james.mime4j.MimeException;
+import org.apache.james.mime4j.dom.FieldParser;
 import org.apache.james.mime4j.dom.Message;
 import org.apache.james.mime4j.dom.MessageBuilder;
-import org.apache.james.mime4j.dom.MessageServiceFactory;
+import org.apache.james.mime4j.dom.field.FieldName;
+import org.apache.james.mime4j.dom.field.MailboxListField;
 import org.apache.james.mime4j.field.LenientFieldParser;
+import org.apache.james.mime4j.field.MailboxListFieldImpl;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
 import org.apache.james.mime4j.stream.MimeConfig;
 
@@ -31,11 +34,17 @@ public class ParserUtil {
                     config.setMaxLineLen(10000);
         //            config.setStrictParsing(false);
 
-                    mb = MessageServiceFactory.newInstance().newMessageBuilder();
-                    ((DefaultMessageBuilder)mb).setMimeEntityConfig(config);
-                    ((DefaultMessageBuilder)mb).setFieldParser(LenientFieldParser.getParser());
+                    FieldParser<MailboxListField> mailboxListParser = MailboxListFieldImpl.PARSER;
+                    LenientFieldParser fieldParser = new LenientFieldParser();
+                    fieldParser.setFieldParser(FieldName.FROM, mailboxListParser);
+                    fieldParser.setFieldParser(FieldName.RESENT_FROM, mailboxListParser);
 
-                    messageBuilder = mb;
+                    DefaultMessageBuilder _mb = new DefaultMessageBuilder();
+                    _mb.setMimeEntityConfig(config);
+                    _mb.setFieldParser(fieldParser);
+
+                    messageBuilder = _mb;
+                    return _mb;
                 }
             }
         }
