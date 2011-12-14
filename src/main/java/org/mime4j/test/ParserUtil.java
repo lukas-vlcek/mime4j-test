@@ -44,6 +44,7 @@ public class ParserUtil {
 
     public static Message getMessage(InputStream is) throws MimeException, IOException {
         Message message = getMessageBuilder().parseMessage(is);
+        is.close();
         return message;
     }
 }
