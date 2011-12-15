@@ -15,18 +15,8 @@
     <dependencies>
         <dependency>
 	        <groupId>org.apache.james</groupId>
-	        <artifactId>apache-mime4j-core</artifactId>
-	        <version>0.7.1</version>
-        </dependency>
-        <dependency>
-	        <groupId>org.apache.james</groupId>
-	        <artifactId>apache-mime4j-dom</artifactId>
-	        <version>0.7.1</version>
-        </dependency>
-        <dependency>
-	        <groupId>org.apache.james</groupId>
-	        <artifactId>apache-mime4j-storage</artifactId>
-	        <version>0.7.1</version>
+	        <artifactId>apache-mime4j</artifactId>
+	        <version>0.6</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

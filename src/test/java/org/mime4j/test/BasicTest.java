@@ -3,9 +3,7 @@ package org.mime4j.test;
 import com.sun.xml.messaging.saaj.packaging.mime.MessagingException;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.MimeUtility;
 import org.apache.commons.io.IOUtils;
-import org.apache.james.mime4j.MimeException;
-import org.apache.james.mime4j.dom.*;
-import org.apache.james.mime4j.message.BodyPart;
+import org.apache.james.mime4j.message.*;
 import org.mime4j.test.util.ReaderInputStream;
 import org.testng.annotations.Test;
 
@@ -24,7 +22,7 @@ import static org.testng.Assert.assertTrue;
 public class BasicTest extends AbstractBase {
 
     @Test
-    public void fromEncodingGBK() throws IOException, MimeException {
+    public void fromEncodingGBK() throws IOException {
 
         Message message = ParserUtil.getMessage(getInputStream("mbox/esb-users-01.mbox"));
         assertEquals("钱宇虹", message.getFrom().get(0).getName());
@@ -34,7 +32,7 @@ public class BasicTest extends AbstractBase {
     }
 
     @Test
-    public void fromEncodingUTF8() throws IOException, MimeException {
+    public void fromEncodingUTF8() throws IOException {
 
         Message message = ParserUtil.getMessage(getInputStream("mbox/jbpm-users-01.mbox"));
         assertEquals("jiacc@gillion.com.cn", message.getFrom().get(0).getName());
@@ -50,10 +48,9 @@ public class BasicTest extends AbstractBase {
      * Reference: http://lists.jboss.org/pipermail/jboss-cluster-dev/2008-April/000000.html
      *
      * @throws IOException
-     * @throws MimeException
      */
     @Test
-    public void bodyEncoding() throws IOException, MimeException {
+    public void bodyEncoding() throws IOException {
 
         Message message = ParserUtil.getMessage(getInputStream("mbox/jboss-cluster-dev-01.mbox"));
 
@@ -66,7 +63,7 @@ public class BasicTest extends AbstractBase {
         assertEquals("text/plain", mimeType);
         assertEquals("8bit", contentTransferEncoding);
 
-        assertTrue( body instanceof TextBody );
+        assertTrue( body instanceof TextBody);
 
         String bodyContent = readerToString(((TextBody)body).getReader());
 
@@ -77,7 +74,7 @@ public class BasicTest extends AbstractBase {
     }
 
     @Test
-    public void contentExtraction() throws IOException, MimeException, MessagingException {
+    public void contentExtraction() throws IOException, MessagingException {
         Message message = ParserUtil.getMessage(getInputStream("mbox/esb-users-01.mbox"));
 
         assertTrue(message.getBody() instanceof Multipart);
@@ -86,7 +83,7 @@ public class BasicTest extends AbstractBase {
         assertEquals( 2, multipart.getCount() );
 
         boolean passed = false;
-        List<Entity> entities =  multipart.getBodyParts();
+        List<BodyPart> entities =  multipart.getBodyParts();
         for (Entity e : entities) {
             assertTrue(e instanceof BodyPart);
 
@@ -109,7 +106,8 @@ public class BasicTest extends AbstractBase {
                 IOUtils.copy(output, writer, charset);
                 content = writer.toString();
 
-                String expected = " Jeff,\r\n\r\n\r\n\r\n Since";
+//                String expected = " Jeff,\r\n\r\n\r\n\r\n Since";
+                String expected = " Jeff,\n\n\n\n Since you";
                 String actual = content.substring(0,20);
                 
                 assertEquals(actual, expected);
