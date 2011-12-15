@@ -21,6 +21,7 @@ public class BasicTest extends AbstractBase {
 
         Message message = ParserUtil.getMessage(getInputStream("mbox/esb-users-01.mbox"));
         assertEquals("钱宇虹", message.getFrom().get(0).getName());
+        assertEquals("=?GBK?B?x67T7rrn?= <yhqian99@163.com>",message.getHeader().getField("from").getBody());
 
     }
 
