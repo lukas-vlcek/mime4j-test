@@ -1,7 +1,7 @@
 package org.mime4j.test;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
+import com.sun.xml.messaging.saaj.packaging.mime.MessagingException;
+import com.sun.xml.messaging.saaj.packaging.mime.internet.MimeUtility;
 import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.dom.*;
