@@ -1,14 +1,21 @@
 package org.mime4j.test;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeUtility;
+import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.MimeException;
-import org.apache.james.mime4j.dom.Body;
-import org.apache.james.mime4j.dom.Message;
-import org.apache.james.mime4j.dom.TextBody;
+import org.apache.james.mime4j.dom.*;
+import org.apache.james.mime4j.message.BodyPart;
+import org.mime4j.test.util.ReaderInputStream;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -22,7 +29,7 @@ public class BasicTest extends AbstractBase {
         Message message = ParserUtil.getMessage(getInputStream("mbox/esb-users-01.mbox"));
         assertEquals("钱宇虹", message.getFrom().get(0).getName());
         assertEquals("钱宇虹 <yhqian99@163.com>", message.getFrom().get(0).getName() + " <" + message.getFrom().get(0).getAddress() + ">");
-        assertEquals("=?GBK?B?x67T7rrn?= <yhqian99@163.com>",message.getHeader().getField("from").getBody());
+        assertEquals("=?GBK?B?x67T7rrn?= <yhqian99@163.com>", message.getHeader().getField("from").getBody());
 
     }
 
@@ -31,6 +38,8 @@ public class BasicTest extends AbstractBase {
 
         Message message = ParserUtil.getMessage(getInputStream("mbox/jbpm-users-01.mbox"));
         assertEquals("jiacc@gillion.com.cn", message.getFrom().get(0).getName());
+        assertEquals("jiacc@gillion.com.cn <jiacc@gillion.com.cn>", message.getFrom().get(0).getName() + " <" + message.getFrom().get(0).getAddress() + ">");
+        assertEquals("\"=?utf-8?B?amlhY2NAZ2lsbGlvbi5jb20uY24=?=\" <jiacc@gillion.com.cn>",message.getHeader().getField("from").getBody());
 
     }
 
@@ -63,7 +72,49 @@ public class BasicTest extends AbstractBase {
 
 //        System.out.println(bodyContent);
 
-        assertTrue( bodyContent.indexOf("Zamarreño") > -1 );
+        assertFalse(bodyContent.indexOf("Zamarreño") > -1);
 
+    }
+
+    @Test
+    public void contentExtraction() throws IOException, MimeException, MessagingException {
+        Message message = ParserUtil.getMessage(getInputStream("mbox/esb-users-01.mbox"));
+
+        assertTrue(message.getBody() instanceof Multipart);
+        
+        Multipart multipart = (Multipart)message.getBody();
+        assertEquals( 2, multipart.getCount() );
+
+        boolean passed = false;
+        List<Entity> entities =  multipart.getBodyParts();
+        for (Entity e : entities) {
+            assertTrue(e instanceof BodyPart);
+
+            String mimeType = e.getMimeType();
+            if (mimeType.equalsIgnoreCase("text/plain")) {
+                passed = true;
+
+                String contentTransferEncoding = e.getContentTransferEncoding();
+                String charset = e.getCharset();
+                
+                assertTrue( e.getBody() instanceof TextBody );
+                TextBody body = (TextBody) e.getBody();
+
+                String content = null;
+                InputStream output = null;
+
+                ReaderInputStream ris = new ReaderInputStream(body.getReader(),charset);
+                output = MimeUtility.decode(ris, contentTransferEncoding.toLowerCase());
+                StringWriter writer = new StringWriter();
+                IOUtils.copy(output, writer, charset);
+                content = writer.toString();
+
+                String expected = " Jeff,\r\n\r\n\r\n\r\n Since";
+                String actual = content.substring(0,20);
+                
+                assertEquals(actual, expected);
+            }
+        }
+        assertTrue(passed);
     }
 }
