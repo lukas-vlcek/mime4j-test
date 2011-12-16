@@ -128,6 +128,7 @@ public class BasicTest extends AbstractBase {
 
         String sd = format.format(message.getDate());
 
-        assertEquals("2007/03/26 04:11:10", sd);
+//        assertEquals("2007/03/26 04:11:10", sd);
+        assertEquals("2007/03/25 16:11:10", sd);
     }
 }
