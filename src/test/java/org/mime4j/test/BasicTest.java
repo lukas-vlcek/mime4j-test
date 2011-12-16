@@ -10,11 +10,11 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * @author Lukas Vlcek (lukas.vlcek@gmail.com)
@@ -114,5 +114,18 @@ public class BasicTest extends AbstractBase {
             }
         }
         assertTrue(passed);
+    }
+
+    // Date: Mon, 26 Mar 2007 12:11:10 +0800
+    @Test
+    public void testDate() throws IOException {
+        Message message = ParserUtil.getMessage(getInputStream("mbox/hibernate-announce-01.mbox"));
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        String sd = format.format(message.getDate());
+
+        assertEquals("2007/03/26 04:11:10", sd);
     }
 }
