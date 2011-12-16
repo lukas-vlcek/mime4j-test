@@ -120,7 +120,7 @@ public class BasicTest extends AbstractBase {
 
     // Date: Mon, 26 Mar 2007 12:11:10 +0800
     @Test
-    public void testDate() throws IOException {
+    public void testDate() throws IOException, MimeException {
         Message message = ParserUtil.getMessage(getInputStream("mbox/hibernate-announce-01.mbox"));
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
