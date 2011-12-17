@@ -9,9 +9,7 @@ import org.apache.james.mime4j.message.BodyPart;
 import org.mime4j.test.util.ReaderInputStream;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
@@ -130,5 +128,23 @@ public class BasicTest extends AbstractBase {
 
 //        assertEquals("2007/03/26 04:11:10", sd);
         assertEquals("2007/03/25 16:11:10", sd);
+    }
+
+    @Test
+    public void testGBK() throws IOException, MimeException {
+        Message message = ParserUtil.getMessage(getInputStream("mbox/jboss-as7-dev-01.mbox"));
+
+        assertTrue(message.getBody() instanceof TextBody);
+        TextBody body = (TextBody) message.getBody();
+
+        String charset = message.getCharset();
+        assertEquals("x-gbk", charset);
+
+        try {
+            Reader reader = body.getReader();
+            fail();
+        } catch (UnsupportedEncodingException e) {
+            assertEquals("x-gbk", e.getMessage());
+        }
     }
 }
