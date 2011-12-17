@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -37,7 +38,7 @@ public class BasicTest extends AbstractBase {
         Message message = ParserUtil.getMessage(getInputStream("mbox/jbpm-users-01.mbox"));
         assertEquals("jiacc@gillion.com.cn", message.getFrom().get(0).getName());
         assertEquals("jiacc@gillion.com.cn <jiacc@gillion.com.cn>", message.getFrom().get(0).getName() + " <" + message.getFrom().get(0).getAddress() + ">");
-        assertEquals("\"=?utf-8?B?amlhY2NAZ2lsbGlvbi5jb20uY24=?=\" <jiacc@gillion.com.cn>",message.getHeader().getField("from").getBody());
+        assertEquals("\"=?utf-8?B?amlhY2NAZ2lsbGlvbi5jb20uY24=?=\" <jiacc@gillion.com.cn>", message.getHeader().getField("from").getBody());
 
     }
 
@@ -127,5 +128,19 @@ public class BasicTest extends AbstractBase {
         String sd = format.format(message.getDate());
 
         assertEquals("2007/03/26 04:11:10", sd);
+    }
+
+    @Test
+    public void testGBK() throws IOException {
+        Message message = ParserUtil.getMessage(getInputStream("mbox/jboss-as7-dev-01.mbox"));
+
+        assertTrue(message.getBody() instanceof TextBody);
+        TextBody body = (TextBody) message.getBody();
+
+        String charset = message.getCharset();
+        assertEquals("x-gbk", charset);
+
+        Reader reader = body.getReader();
+        assertTrue( reader != null );
     }
 }
